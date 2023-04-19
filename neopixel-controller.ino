@@ -1,16 +1,11 @@
 #include <FastLED.h>
-#define NUM_LEDS 37
-CRGB leds[NUM_LEDS];
-
-#include <Arduino.h>
-#ifdef ESP32
-  #include <WiFi.h>
-  #include <AsyncTCP.h>
-#else
-  #include <ESP8266WiFi.h>
-  #include <ESPAsyncTCP.h>
-#endif
+#include <WiFi.h>
+#include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+
+#define NUM_LEDS 37
+
+CRGB leds[NUM_LEDS];
 
 AsyncWebServer server(80);
 
@@ -112,10 +107,6 @@ const char index_html[] PROGMEM = R"rawliteral(
   </html>
 )rawliteral";
 
-void notFound(AsyncWebServerRequest *request) {
-  request->send(404, "text/plain", "Not found");
-}
-
 void setup() {
   FastLED.addLeds<NEOPIXEL, 13>(leds, NUM_LEDS);
   FastLED.setBrightness(50);
@@ -147,7 +138,6 @@ void setup() {
     FastLED.show();
     request->redirect("/");
   });
-  server.onNotFound(notFound);
   server.begin();
 }
 
