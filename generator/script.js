@@ -1,4 +1,5 @@
 const checkboxes = document.querySelectorAll("input[type='checkbox']")
+const output = document.getElementById("output")
 
 function generateList() {
   let string = "{"
@@ -18,6 +19,6 @@ function generateList() {
     }
   })
   string += "}"
-  return string
+  output.innerText = string
 }
 
